@@ -1,6 +1,5 @@
 section .text
  
- 
 ; Принимает код возврата и завершает текущий процесс
 
 exit: 
@@ -13,13 +12,13 @@ exit:
 string_length:
     xor rax, rax
     .main_loop:
-        cmp	byte[rdi + rax], 0 
-        je	.end
-        inc	rax
-        jmp	.main_loop
+        cmp byte[rdi + rax], 0 
+        je .end
+        inc rax
+        jmp .main_loop
     .end:
         ret
-
+		
 ; Принимает указатель на нуль-терминированную строку, выводит её в stdout
 
 print_string:
