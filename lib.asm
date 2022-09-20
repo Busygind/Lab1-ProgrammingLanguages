@@ -4,14 +4,14 @@ section .text
 ; Принимает код возврата и завершает текущий процесс
 
 exit: 
- 	mov rax, 60 ; 'exit' syscall number
+	mov rax, 60 ; 'exit' syscall number
 	syscall
-    ret 
+	ret 
 
 ; Принимает указатель на нуль-терминированную строку, возвращает её длину
 
 string_length:
-    xor	rax, rax
+	xor rax, rax
 	.main_loop:
 		cmp	byte[rdi + rax], 0 
 		je	.end
@@ -25,7 +25,7 @@ string_length:
 print_string:
 	call string_length
 	mov rsi, rdi
-    mov rdx, rax	
+	mov rdx, rax	
  	mov rax, 1		; 'write' syscall number
    	mov rdi, 1		; stdout descriptor
    	syscall
@@ -34,7 +34,7 @@ print_string:
 ; Принимает код символа и выводит его в stdout
 
 print_char:
-    xor rax, rax
+	xor rax, rax
 	push rdi
 	mov rsi, rsp
 	pop rax
@@ -42,14 +42,14 @@ print_char:
 	mov rax, 1		; 'write' syscall number
    	mov rdi, 1		; stdout descriptor
 	syscall
-    ret
+	ret
 
 ; Переводит строку (выводит символ с кодом 0xA)
 
 print_newline:
 	mov rdi, 0xA
 	call print_char
-    ret
+	ret
 
 ; Выводит беззнаковое 8-байтовое число в десятичном формате 
 ; Совет: выделите место в стеке и храните там результаты деления
@@ -57,28 +57,28 @@ print_newline:
 
 print_uint:
 	xor rcx, rcx
-    xor rdx, rdx
+	xor rdx, rdx
 	mov rbx, 10			; divider to get digits
-    mov rax, rdi
+	mov rax, rdi
 	.stack_filling:
-    	xor rdx, rdx
-    	div rbx			; next digit
-    	add rdx, '0'	; offset to save ascii-code
-    	push rdx
-    	inc rcx
-    	test rax, rax	; loop while rax has content 
-    	jnz .stack_filling
+		xor rdx, rdx
+		div rbx			; next digit
+		add rdx, '0'	; offset to save ascii-code
+		push rdx
+		inc rcx
+		test rax, rax	; loop while rax has content 
+		jnz .stack_filling
 	.print_from_stack:
-    	pop rdx
-    	mov rdi, rdx
-    	push rcx		; save reg value before calling
-    	call print_char
-    	pop rcx
-    	dec rcx
-    	test rcx, rcx	; loop while rcx > 0
-    	jnz .print_from_stack
+    		pop rdx
+		mov rdi, rdx
+		push rcx		; save reg value before calling
+		call print_char
+		pop rcx
+		dec rcx
+		test rcx, rcx	; loop while rcx > 0
+		jnz .print_from_stack
 		xor rbx, rbx	; respect convention :)
-    	ret
+		ret
 
 ; Выводит знаковое 8-байтовое число в десятичном формате 
 
@@ -86,13 +86,13 @@ print_int:
 	or rdi, rdi		; set flags
 	jns .end		; if number is positive just print it!
 	push rdi		; else add '-'
-    mov rdi, '-'
-    call print_char
-    pop rdi
-    neg rdi
+	mov rdi, '-'
+	call print_char
+	pop rdi
+	neg rdi
 	.end:
 		jmp print_uint
-    	ret
+		ret
 
 ; Принимает два указателя на нуль-терминированные строки, возвращает 1 если они равны, 0 иначе
 
