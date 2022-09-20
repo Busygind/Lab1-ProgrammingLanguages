@@ -107,7 +107,7 @@ string_equals:
     mov 	rsi, r8
     .char_loop:			
         cmp 	rcx, r9
-        je 		.equals
+        je 	.equals
         mov 	al, byte[rsi + rcx]
         mov 	dl, byte[rdi + rcx]
         cmp 	al, dl		; compare each chars
@@ -149,27 +149,27 @@ read_word:
     .spaces_skip_loop:
         call 	read_char
         cmp 	rax, 0x20
-        je 		.spaces_skip_loop
+        je 	.spaces_skip_loop
         cmp 	rax, 0x9
-        je 		.spaces_skip_loop
+        je 	.spaces_skip_loop
         cmp 	rax, 0xA
-        je 		.spaces_skip_loop
+        je 	.spaces_skip_loop
     .main_loop:
         pop 	rcx		; get regs values after calling
         pop 	rsi			
         pop 	rdi
         test 	rax, rax	; check overflow
-        jz 		.end
+        jz 	.end
         cmp 	rax, 0x20	; check spaces again :(
-        je 		.end
+        je 	.end
         cmp 	rax, 0x9
-        je 		.end
+        je 	.end
         cmp 	rax, 0xA
-        je 		.end
+        je 	.end
         mov 	[rdi + rcx], al
         inc 	rcx		; counter
         dec 	rsi
-        jz 		.end
+        jz 	.end
         push	rdi		; save regs values before calling
         push	rsi
         push	rcx
