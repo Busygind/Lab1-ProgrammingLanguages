@@ -200,9 +200,9 @@ parse_uint:
         mov 	r8b, byte [rdi + rcx]
         sub 	r8, '0'			; set offset for ascii-code
         cmp 	r8, 0		
-        jl 		.end		; no-digit char found
+        jl 	.end		; no-digit char found
         cmp 	r8, 9
-        jg 		.end		; no-digit char found
+        jg 	.end		; no-digit char found
         mul 	rbx			
         add 	al, r8b			; save current digit
         inc 	rcx
@@ -213,7 +213,7 @@ parse_uint:
     .end:
         xor 	rbx, rbx		; respect convention :)
         cmp 	rcx, 0
-        je 		.parse_error	; line started with not a digit char
+        je 	.parse_error	; line started with not a digit char
         mov 	rdx, rcx
         ret
 
@@ -247,7 +247,7 @@ string_copy:
         mov 	dl, [rdi + rax]
         mov 	[rsi + rax], dl
         test 	dl, dl			; if string length = 0 then goto end
-        je 		.end
+        je 	.end
         inc 	rax
         jmp 	.copy_next
     .overflow:
