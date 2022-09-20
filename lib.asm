@@ -13,7 +13,7 @@ string_length:
     xor rax, rax
     .main_loop:
         cmp 	byte[rdi + rax], 0 
-        je		.end
+        je	.end
         inc 	rax
         jmp 	.main_loop
     .end:
@@ -57,11 +57,11 @@ print_newline:
 print_uint:
     xor 	rcx, rcx
     xor 	rdx, rdx
-    mov 	rbx, 10			; divider to get digits
+    mov 	rbx, 10		; divider to get digits
     mov 	rax, rdi
     .stack_filling:
         xor 	rdx, rdx
-        div 	rbx			; next digit
+        div 	rbx		; next digit
         add 	rdx, '0'	; offset to save ascii-code
         push 	rdx
         inc 	rcx
@@ -70,7 +70,7 @@ print_uint:
     .print_from_stack:
         pop 	rdx
         mov 	rdi, rdx
-        push 	rcx			; save reg value before calling
+        push 	rcx		; save reg value before calling
         call 	print_char
         pop 	rcx
         dec 	rcx
@@ -84,7 +84,7 @@ print_uint:
 print_int:
     or 		rdi, rdi		; set flags
     jns 	.end			; if number is positive just print it!
-    push 	rdi				; else add '-'
+    push 	rdi			; else add '-'
     mov 	rdi, '-'
     call 	print_char
     pop 	rdi
@@ -101,7 +101,7 @@ string_equals:
     mov 	r9, rax
     mov 	rdi, rsi
     call 	string_length
-    cmp 	r9, rax			; compare lengths
+    cmp 	r9, rax		; compare lengths
     jne 	.not_equals
     mov 	rcx, 0
     mov 	rsi, r8
@@ -143,7 +143,7 @@ read_char:
 
 read_word:
     xor 	rcx, rcx
-    push 	rdi				; save regs values before calling
+    push 	rdi		; save regs values before calling
     push 	rsi
     push 	rcx
     .spaces_skip_loop:
@@ -155,7 +155,7 @@ read_word:
         cmp 	rax, 0xA
         je 		.spaces_skip_loop
     .main_loop:
-        pop 	rcx			; get regs values after calling
+        pop 	rcx		; get regs values after calling
         pop 	rsi			
         pop 	rdi
         test 	rax, rax	; check overflow
@@ -167,10 +167,10 @@ read_word:
         cmp 	rax, 0xA
         je 		.end
         mov 	[rdi + rcx], al
-        inc 	rcx			; counter
+        inc 	rcx		; counter
         dec 	rsi
         jz 		.end
-        push	rdi			; save regs values before calling
+        push	rdi		; save regs values before calling
         push	rsi
         push	rcx
         call 	read_char
@@ -194,15 +194,15 @@ read_word:
 parse_uint:
     xor 	rax, rax
     xor 	rcx, rcx
-    mov 	rbx, 10				; divider to get digits
+    mov 	rbx, 10			; divider to get digits
     .read_digit:
         xor 	r8, r8
         mov 	r8b, byte [rdi + rcx]
         sub 	r8, '0'			; set offset for ascii-code
         cmp 	r8, 0		
-        jl 		.end			; no-digit char found
+        jl 		.end		; no-digit char found
         cmp 	r8, 9
-        jg 		.end			; no-digit char found
+        jg 		.end		; no-digit char found
         mul 	rbx			
         add 	al, r8b			; save current digit
         inc 	rcx
@@ -226,7 +226,7 @@ parse_uint:
 parse_int:
     cmp 	byte [rdi], '-'	
     jne 	parse_uint		
-    inc 	rdi					; case with neg number
+    inc 	rdi				; case with neg number
     call 	parse_uint
     neg 	rax
     inc 	rdx
